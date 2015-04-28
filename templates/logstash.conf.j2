@@ -1,0 +1,29 @@
+input {
+    {% for logstash_input in logstash_inputs %}
+    {{ logstash_input.type }} {
+        {% for li_opt in logstash_input.options %}
+        {{ li_opt.key }} => {{ li_opt.value }}
+        {% endfor %}
+    }
+    {% endfor %}
+}
+
+filter {
+    {% for logstash_filter in logstash_filters %}
+    {{ logstash_filter.type }} {
+        {% for lf_opt in logstash_filter.options %}
+        {{ lf_opt.key }} => {{ lf_opt.value }}
+        {% endfor %}
+    }
+    {% endfor %}
+}
+
+output {
+    {% for logstash_output in logstash_outputs %}
+    {{ logstash_output.type }} {
+        {% for lo_opt in logstash_output.options %}
+        {{ lo_opt.key }} => {{ lo_opt.value }}
+        {% endfor %}
+    }
+    {% endfor %}
+}

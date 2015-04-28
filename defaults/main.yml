@@ -1,0 +1,90 @@
+---
+logstash_install_java: true
+
+logstash_version: '1.4.2'
+logstash_hversion: '2c0f5a1'
+logstash_dl_tar_url: 'https://www.elastic.co/thank-you?url=https://download.elastic.co/logstash/logstash/logstash-{{ logstash_version }}.tar.gz'
+logstash_dl_deb_url: 'https://download.elastic.co/logstash/logstash/packages/debian/logstash_{{ logstash_version }}-1-{{ logstash_hversion }}_all.deb'
+logstash_dl_rpm_url: 'https://download.elastic.co/logstash/logstash/packages/centos/logstash-{{ logstash_version }}-1_{{ logstash_hversion }}.noarch.rpm'
+
+logstash_tar_dest: '/opt/logstash-{{ logstash_version }}.tar.gz'
+logstash_deb_dest: '/opt/logstash-{{ logstash_version }}.deb'
+logstash_rpm_dest: '/opt/logstash-{{ logstash_version }}.rpm'
+
+logstash_installfrom_tar: false
+logstash_rpm_os_family: ['RedHat']
+logstash_deb_os_family: ['Debian']
+
+# fetch from one of dl_xxx_url
+logstash_fetch_remote: true
+
+logstash_tar_install_dest: '/opt/'
+logstash_tar_install_fdest: "{{ logstash_tar_install_dest }}/logstash-{{ logstash_version }}"
+logstash_tar_logdir: "{{ logstash_tar_install_fdest }}/log"
+logstash_tar_datadir: "{{ logstash_tar_install_fdest }}/data"
+logstash_tar_workdir: "{{ logstash_tar_install_fdest }}/workdir"
+
+
+logstash_tar_service:
+  Debian:
+    '7':
+      -
+        src: 'logstash.Debian.default'
+        dest: '/etc/default/logstash'
+      -
+        src: 'logstash.Debian.init'
+        dest: '/etc/init.d/logstash'
+    '8':
+      -
+        src: 'logstash.Debian.default'
+        dest: '/etc/default/logstash'
+      -
+        src: 'logstash.Debian.service'
+        dest: '/etc/systemd/system/logstash.service'
+        postcommand: '/usr/bin/systemctl daemon-reload'
+  RedHat:
+    '6':
+      -
+        src: 'logstash.RedHat.default'
+        dest: '/etc/sysconfig/logstash'
+      -
+        src: 'logstash.RedHat.init'
+        dest: '/etc/init.d/logstash'
+    '7':
+      -
+        src: 'logstash.RedHat.default'
+        dest: '/etc/sysconfig/logstash'
+      -
+        src: 'logstash.RedHat.service'
+        dest: '/etc/systemd/system/logstash.service'
+        postcommand: '/usr/bin/systemctl daemon-reload'
+
+
+logstash_user: 'logstash'
+logstash_group: 'logstash'
+
+logstash_conf_dir: '/etc/logstash/conf.d/'
+logstash_main_config: '{{ logstash_conf_dir }}/logstash.conf'
+
+logstash_config_dir_tar: '{{ logstash_tar_install_fdest }}/config'
+logstash_main_config_tar: '{{ logstash_config_dir_tar }}/logstash.conf'
+
+logstash_use_basic_template: true
+logstash_custom_conf_files: []
+
+
+
+logstash_inputs:
+    -
+      type: tcp
+      options:
+          -
+            key: port
+            value: 5410
+
+logstash_filters: []
+
+logstash_outputs:
+    -
+      type: elasticsearch
+      options: []

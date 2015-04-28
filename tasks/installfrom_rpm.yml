@@ -1,0 +1,24 @@
+---
+- name: stat existing rpm
+  stat:
+    path: "{{ logstash_rpm_dest }}"
+  register: logstash_dl_stat
+
+- name: fetch rpm from remote
+  get_url:
+    url: "{{ logstash_dl_rpm_url }}"
+    dest: "{{ logstash_rpm_dest }}"
+  when:
+    - logstash_fetch_remote
+    - logstash_dl_stat.stat.exists == False
+
+- name: copy from local file
+  copy:
+    src: "logstash-{{ logstash_version }}.rpm"
+    dest: "{{ logstash_rpm_dest }}"
+  when: not logstash_fetch_remote
+
+- name: install rpm
+  yum:
+    name: "{{ logstash_rpm_dest }}"
+    state: present

@@ -1,0 +1,41 @@
+---
+- include_vars: "{{ ansible_os_family }}.yml"
+
+- name: install packages
+  action: "{{ ansible_pkg_mgr }} name={{ logstash_packages | join(',') }} state=latest"
+  when:
+    - logstash_packages|length > 0
+
+- name: install java packages
+  action: "{{ ansible_pkg_mgr }} name={{ logstash_packages_java | join(',') }} state=latest"
+  when:
+    - logstash_install_java
+    - logstash_packages_java|length > 0
+
+- include: installfrom_tar.yml
+  when:
+    - logstash_installfrom_tar
+
+- include: installfrom_rpm.yml
+  when:
+    - ansible_os_family in logstash_rpm_os_family
+    - logstash_installfrom_tar == False
+
+- include: installfrom_deb.yml
+  when:
+    - ansible_os_family in logstash_deb_os_family
+    - logstash_installfrom_tar == False
+
+- include: configure_pkg.yml
+  when:
+    - logstash_installfrom_tar == False
+
+- include: configure_tar.yml
+  when:
+    - logstash_installfrom_tar == True
+
+- name: enable logstash
+  service:
+    name: "{{ logstash_service }}"
+    state: started
+    enabled: yes

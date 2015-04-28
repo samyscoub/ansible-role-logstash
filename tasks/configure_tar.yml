@@ -1,0 +1,23 @@
+---
+- name: basic configuration pkg
+  template:
+    src: logstash.conf.j2
+    dest: "{{ logstash_main_config_tar }}"
+    owner: "{{ logstash_user }}"
+    group: "{{ logstash_group }}"
+    mode: 0640
+  when:
+    - logstash_use_basic_template
+  notify: restart logstash
+
+- name: deploy custom configuration files
+  template:
+    src: "host_files/{{ ansible_nodename }}/logstash/{{ item }}.conf.j2"
+    dest: "{{ logstash_conf_dir_tar }}/{{ item }}.conf"
+    owner: "{{ logstash_user }}"
+    group: "{{ logstash_group }}"
+    mode: 0640
+  with_items: logstash_custom_conf_files
+  when:
+    - logstash_custom_conf_files | length > 0
+  notify: restart logstash

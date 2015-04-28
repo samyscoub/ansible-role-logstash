@@ -1,0 +1,7 @@
+---
+logstash_packages: []
+
+logstash_packages_java:
+    - java-1.7.0-openjdk-headless
+
+logstash_service: 'logstash'

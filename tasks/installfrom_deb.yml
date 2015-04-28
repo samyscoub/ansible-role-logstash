@@ -1,0 +1,23 @@
+---
+- name: stat existing deb
+  stat:
+    path: "{{ logstash_deb_dest }}"
+  register: logstash_dl_stat
+
+- name: fetch deb from remote
+  get_url:
+    url: "{{ logstash_dl_deb_url }}"
+    dest: "{{ logstash_deb_dest }}"
+  when:
+    - logstash_fetch_remote
+    - logstash_dl_stat.stat.exists == False
+
+- name: copy from local file
+  copy:
+    src: "logstash-{{ logstash_version }}.deb"
+    dest: "{{ logstash_deb_dest }}"
+  when: not logstash_fetch_remote
+
+- name: install deb
+  apt:
+    deb: "{{ logstash_deb_dest }}"
