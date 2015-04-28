@@ -32,7 +32,9 @@ logstash_(inputs|filters|outputs):
 
 If you dont want such a basic configuration or have conditional statements, dont use the basic template and write your own configuration files.
 
-They should be located in a directory like `host_files/<ansible_nodename>/logstash/` and named like `myconf.conf`.
+They should be located in a directory like `host_files/<ansible_nodename>/logstash/` and named like `myconf.conf.j2`.
+
+Remember they are templates so use any variable you want.
 
 Then set `logstash_custom_conf_files` variable like this:
 
