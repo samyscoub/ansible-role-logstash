@@ -64,10 +64,10 @@ logstash_user: 'logstash'
 logstash_group: 'logstash'
 
 logstash_conf_dir: '/etc/logstash/conf.d/'
-logstash_main_config: '{{ logstash_conf_dir }}/logstash.conf'
+logstash_main_config: '{{ logstash_conf_dir }}/0000_logstash.conf'
 
 logstash_config_dir_tar: '{{ logstash_tar_install_fdest }}/config'
-logstash_main_config_tar: '{{ logstash_config_dir_tar }}/logstash.conf'
+logstash_main_config_tar: '{{ logstash_config_dir_tar }}/0000_logstash.conf'
 
 logstash_use_basic_template: true
 logstash_custom_conf_files: []

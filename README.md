@@ -45,3 +45,5 @@ logstash_custom_conf_files:
     - 'my_outputs_elasticsearch'
     - 'my_outputs_rabbitmq'
 ```
+
+Then set `logstash_use_basic_template: false`. It is optional, just remember the default basic template will be named `0000_logstash.conf`
