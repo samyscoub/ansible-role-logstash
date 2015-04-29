@@ -2,7 +2,7 @@
 
  * Installs logstash from tar, deb or rpm
  * Fetchs from remote web or local copy
- * Tested on Debian Wheezy (7) and deb only
+ * Tested on Debian Wheezy (7) and RedHat 7 via packages only
  * Should work on RedHat 6, 7 and Debian Jessie (8)
 
 
