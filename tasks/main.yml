@@ -2,12 +2,12 @@
 - include_vars: "{{ ansible_os_family }}.yml"
 
 - name: install packages
-  action: "{{ ansible_pkg_mgr }} name={{ logstash_packages | join(',') }} state=latest"
+  action: "{{ ansible_pkg_mgr }} name={{ logstash_packages | join(',') }} state=present"
   when:
     - logstash_packages|length > 0
 
 - name: install java packages
-  action: "{{ ansible_pkg_mgr }} name={{ logstash_packages_java | join(',') }} state=latest"
+  action: "{{ ansible_pkg_mgr }} name={{ logstash_packages_java | join(',') }} state=present"
   when:
     - logstash_install_java
     - logstash_packages_java|length > 0
