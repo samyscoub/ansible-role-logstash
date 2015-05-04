@@ -72,8 +72,6 @@ logstash_main_config_tar: '{{ logstash_config_dir_tar }}/0000_logstash.conf'
 logstash_use_basic_template: true
 logstash_custom_conf_files: []
 
-
-
 logstash_inputs:
     -
       type: tcp
@@ -81,6 +79,8 @@ logstash_inputs:
           -
             key: port
             value: 5410
+          - key: codec
+            value: 'json'
 
 logstash_filters: []
 
