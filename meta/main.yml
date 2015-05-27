@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  author: Florent Petterschmitt
+  description: An Ansible role for installing logstash.
+  company: CAPENSIS Inc.
+  license: BSD
+  min_ansible_version: 1.9
+  platforms:
+  - name: Debian
+    versions:
+    - 7
+  - name: CentOS
+    versions:
+    - 7
+  - name: Red Hat Enterprise Linux
+    versions:
+    - 7
+  categories:
+  - system
+dependencies:
